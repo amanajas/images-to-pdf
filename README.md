@@ -7,6 +7,9 @@ pip install -r requirements.txt
 ```
 
 ## RUN
+> First you need to create a folder called *images* then pass its name as parameter in the command below.
+
+ex:
 ```
 python convert.py images
 ```
