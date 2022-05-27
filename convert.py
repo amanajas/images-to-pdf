@@ -17,9 +17,9 @@ def generate_pdf_from_image(path_to_images):
     if not os.path.exists(DEFAULT_OUTPUT_FOLDER):
         os.mkdir(DEFAULT_OUTPUT_FOLDER)
     for file in files:
-        if os.path.isfile(os.path.join(path_to_images, file)):
-            img_path = "{}/{}".format(path_to_images, file)
-            pdf_path = "{}/{}.pdf".format(DEFAULT_OUTPUT_FOLDER, file)
+        img_path = os.path.join(path_to_images, file)
+        if os.path.isfile(img_path):
+            pdf_path = "{}.pdf".format(os.path.join(DEFAULT_OUTPUT_FOLDER, file))
             with Image.open(img_path) as image:
                 image.save(pdf_path)
                 print("Successfully made pdf file out of", img_path, "named", pdf_path)
@@ -38,7 +38,8 @@ def merge_pdfs(file_name):
     merger.close()
     print("Removing old generated PDFs...")
     for pdf in pdfs:
-        os.remove(os.path.join(DEFAULT_OUTPUT_FOLDER, pdf))
+        if file_name not in pdf:
+            os.remove(os.path.join(DEFAULT_OUTPUT_FOLDER, pdf))
     print("Finished merging")
   
 
