@@ -24,11 +24,9 @@ def generate_pdf_from_image(path_to_images):
                 img_path = "{}/{}".format(path_to_images, file)
                 pdf_path = "{}/{}.pdf".format(DEFAULT_OUTPUT_FOLDER, file)
                 with Image.open(img_path) as image:
-                    pdf_bytes = img2pdf.convert(image.filename)
-                    with open(pdf_path, "wb") as f:
-                        f.write(pdf_bytes)
-                        print("Successfully made pdf file out of", img_path, "named", pdf_path)
-                        pdfs.append(pdf_path)
+                    image.save(pdf_path)
+                    pdfs.append(pdf_path)
+                    print("Successfully made pdf file out of", img_path, "named", pdf_path)
     return pdfs
 
 
