@@ -1,5 +1,4 @@
 # importing necessary libraries
-import img2pdf
 import os
 import sys
 from PIL import Image
