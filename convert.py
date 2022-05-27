@@ -13,7 +13,6 @@ def generate_pdf_from_image(path_to_images):
     # Read files
     print("Path to convert:", path_to_images)
     files = os.listdir(path_to_images)
-    pdfs = []
     # Creating output folder
     if not os.path.exists(DEFAULT_OUTPUT_FOLDER):
         os.mkdir(DEFAULT_OUTPUT_FOLDER)
@@ -23,23 +22,23 @@ def generate_pdf_from_image(path_to_images):
             pdf_path = "{}/{}.pdf".format(DEFAULT_OUTPUT_FOLDER, file)
             with Image.open(img_path) as image:
                 image.save(pdf_path)
-                pdfs.append(pdf_path)
                 print("Successfully made pdf file out of", img_path, "named", pdf_path)
-    return pdfs
 
 
-def merge_pdfs(pdfs, file_name):
+def merge_pdfs(file_name):
     # Merge
     merger = PdfFileMerger()
     print("Merging...")
+    pdfs = os.listdir(DEFAULT_OUTPUT_FOLDER)
+    print("-- PDF amount", len(pdfs))
     for pdf in pdfs:
-        merger.append(pdf)
+        merger.append(os.path.join(DEFAULT_OUTPUT_FOLDER, pdf))
     print("Creating final PDF", file_name)
-    merger.write(file_name)
+    merger.write(os.path.join(DEFAULT_OUTPUT_FOLDER, file_name))
     merger.close()
     print("Removing old generated PDFs...")
     for pdf in pdfs:
-        os.remove(pdf)
+        os.remove(os.path.join(DEFAULT_OUTPUT_FOLDER, pdf))
     print("Finished merging")
   
 
@@ -58,15 +57,8 @@ if __name__ == "__main__":
             # Checking if the name of the file is correct
             if opt_filename is None or ".pdf" not in opt_filename:
                 print("Output file name incorrect or missing! Setting the default name:", DEFAULT_OUTPUT_FILE)
-                opt_filename = "{}/{}".format(DEFAULT_OUTPUT_FOLDER, DEFAULT_OUTPUT_FILE)
-            else:
-                opt_filename = "{}/{}".format(DEFAULT_OUTPUT_FOLDER, opt_filename)
+                opt_filename = "{}".format(DEFAULT_OUTPUT_FILE)
             # Searching images and converting to individual PDFs
-            generated_pdfs = generate_pdf_from_image(folder)
-            # Check if there are PDFs to merge
-            if len(generated_pdfs) == 0:
-                print("There is nothing to merge")
-            else:
-                # Merging PDFs
-                print("PDF amount", len(generated_pdfs))
-                merge_pdfs(generated_pdfs, opt_filename)
+            generate_pdf_from_image(folder)
+            # Merging PDFs
+            merge_pdfs(opt_filename)
