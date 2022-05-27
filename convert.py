@@ -22,7 +22,7 @@ def generate_pdf_from_image(path_to_images):
         for file in files:
             if os.path.isfile(os.path.join(path_to_images, file)):
                 img_path = "{}/{}".format(path_to_images, file)
-                pdf_path = "{}.pdf".format(file)
+                pdf_path = "{}/{}.pdf".format(DEFAULT_OUTPUT_FOLDER, file)
                 with Image.open(img_path) as image:
                     pdf_bytes = img2pdf.convert(image.filename)
                     with open(pdf_path, "wb") as f:
