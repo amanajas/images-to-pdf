@@ -1,6 +1,7 @@
 # importing necessary libraries
 import os
 import sys
+import imghdr
 from PIL import Image
 from PyPDF2 import PdfFileMerger
 
@@ -18,7 +19,7 @@ def generate_pdf_from_image(path_to_images):
         os.mkdir(DEFAULT_OUTPUT_FOLDER)
     for file in files:
         img_path = os.path.join(path_to_images, file)
-        if os.path.isfile(img_path):
+        if os.path.isfile(img_path) and imghdr.what(img_path) in ['png', 'jpeg']:
             pdf_path = "{}.pdf".format(os.path.join(DEFAULT_OUTPUT_FOLDER, file))
             with Image.open(img_path) as image:
                 image.save(pdf_path)
