@@ -14,18 +14,17 @@ def generate_pdf_from_image(path_to_images):
     print("Path to convert:", path_to_images)
     files = os.listdir(path_to_images)
     pdfs = []
-    if len(files) > 0:
-        # Creating output folder
-        if not os.path.exists(DEFAULT_OUTPUT_FOLDER):
-            os.mkdir(DEFAULT_OUTPUT_FOLDER)
-        for file in files:
-            if os.path.isfile(os.path.join(path_to_images, file)):
-                img_path = "{}/{}".format(path_to_images, file)
-                pdf_path = "{}/{}.pdf".format(DEFAULT_OUTPUT_FOLDER, file)
-                with Image.open(img_path) as image:
-                    image.save(pdf_path)
-                    pdfs.append(pdf_path)
-                    print("Successfully made pdf file out of", img_path, "named", pdf_path)
+    # Creating output folder
+    if not os.path.exists(DEFAULT_OUTPUT_FOLDER):
+        os.mkdir(DEFAULT_OUTPUT_FOLDER)
+    for file in files:
+        if os.path.isfile(os.path.join(path_to_images, file)):
+            img_path = "{}/{}".format(path_to_images, file)
+            pdf_path = "{}/{}.pdf".format(DEFAULT_OUTPUT_FOLDER, file)
+            with Image.open(img_path) as image:
+                image.save(pdf_path)
+                pdfs.append(pdf_path)
+                print("Successfully made pdf file out of", img_path, "named", pdf_path)
     return pdfs
 
 
