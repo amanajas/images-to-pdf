@@ -32,20 +32,16 @@ def generate_pdf_from_image(path_to_images):
 def merge_pdfs(pdfs, file_name):
     # Merge
     merger = PdfFileMerger()
-    try:
-        print("Merging...")
-        for pdf in pdfs:
-            merger.append(pdf)
-        print("Creating final PDF", file_name)
-        merger.write(file_name)
-    except Exception as err:
-        print(err)
-    finally:
-        merger.close()
-        print("Removing old generated PDFs...")
-        for pdf in pdfs:
-            os.remove(pdf)
-        print("Finished merging")
+    print("Merging...")
+    for pdf in pdfs:
+        merger.append(pdf)
+    print("Creating final PDF", file_name)
+    merger.write(file_name)
+    merger.close()
+    print("Removing old generated PDFs...")
+    for pdf in pdfs:
+        os.remove(pdf)
+    print("Finished merging")
   
 
 if __name__ == "__main__":
