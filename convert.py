@@ -2,6 +2,8 @@
 import os
 import sys
 import imghdr
+
+from datetime import datetime
 from PIL import Image
 from PyPDF2 import PdfFileMerger
 
@@ -61,6 +63,7 @@ if __name__ == "__main__":
         if not os.path.isdir(folder):
             print("Folder of images is not valid")
         else:
+            start = datetime.now()
             # Getting optional filename
             opt_filename = sys.argv[2] if len(sys.argv) > 2 else None
             # Checking if the name of the file is correct
@@ -71,3 +74,5 @@ if __name__ == "__main__":
             generate_pdf_from_image(folder)
             # Merging PDFs
             merge_pdfs(opt_filename)
+            now = datetime.now()
+            print("Time:", now - start)
