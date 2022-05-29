@@ -14,33 +14,40 @@ def generate_pdf_from_image(path_to_images):
     # Read files
     print("Path to convert:", path_to_images)
     files = os.listdir(path_to_images)
-    # Creating output folder
-    if not os.path.exists(DEFAULT_OUTPUT_FOLDER):
-        os.mkdir(DEFAULT_OUTPUT_FOLDER)
-    for file in files:
-        img_path = os.path.join(path_to_images, file)
-        if os.path.isfile(img_path) and imghdr.what(img_path) in ['png', 'jpeg']:
-            pdf_path = "{}.pdf".format(os.path.join(DEFAULT_OUTPUT_FOLDER, file))
-            with Image.open(img_path) as image:
-                image.save(pdf_path)
-                print("Successfully made pdf file out of", img_path, "named", pdf_path)
+    if len(files) > 0:
+        # Creating output folder
+        if not os.path.exists(DEFAULT_OUTPUT_FOLDER):
+            os.mkdir(DEFAULT_OUTPUT_FOLDER)
+        for file in files:
+            img_path = os.path.join(path_to_images, file)
+            if os.path.isfile(img_path) and imghdr.what(img_path) in ['png', 'jpeg']:
+                pdf_path = "{}.pdf".format(os.path.join(DEFAULT_OUTPUT_FOLDER, file))
+                with Image.open(img_path) as image:
+                    image.save(pdf_path)
+                    print("Successfully made pdf file out of", img_path, "named", pdf_path)
+    else:
+        print("-- No action required")
+    print("Finishing generating")
 
 
 def merge_pdfs(file_name):
-    # Merge
-    merger = PdfFileMerger()
     print("Merging...")
     pdfs = os.listdir(DEFAULT_OUTPUT_FOLDER)
     print("-- PDF amount", len(pdfs))
-    for pdf in pdfs:
-        merger.append(os.path.join(DEFAULT_OUTPUT_FOLDER, pdf))
-    print("Creating final PDF", file_name)
-    merger.write(os.path.join(DEFAULT_OUTPUT_FOLDER, file_name))
-    merger.close()
-    print("Removing old generated PDFs...")
-    for pdf in pdfs:
-        if file_name not in pdf:
-            os.remove(os.path.join(DEFAULT_OUTPUT_FOLDER, pdf))
+    if len(pdfs) > 0:
+        # Merge
+        merger = PdfFileMerger()
+        for pdf in pdfs:
+            merger.append(os.path.join(DEFAULT_OUTPUT_FOLDER, pdf))
+        print("Creating final PDF", file_name)
+        merger.write(os.path.join(DEFAULT_OUTPUT_FOLDER, file_name))
+        merger.close()
+        print("Removing old generated PDFs...")
+        for pdf in pdfs:
+            if file_name not in pdf:
+                os.remove(os.path.join(DEFAULT_OUTPUT_FOLDER, pdf))
+    else:
+        print("-- No action required")
     print("Finished merging")
   
 
